@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    지도 짠!
+    <div id="map" style="width:700px;height:350px;"></div>
+    지도가 보이나요?
+    <!-- kakao sdk init -->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
+    <script>
+        Kakao.init('ce6dbfa467c59426f74bb64059c3f05e');
+        Kakao.isInitialized();
+        console.log(Kakao.isInitialized());
+    </script>
+    <!-- kakao map -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ce6dbfa467c59426f74bb64059c3f05e"></script>
+    <script>
+        // kakao map
+        console.log(Kakao.isInitialized());
+        var container = document.getElementById('map'),
+            options = {
+                center: new kakao.maps.LatLng(36.104359, 129.385868),
+                level: 3
+            };
+        var map = new kakao.maps.Map(container, options);
+
+        // markers
+        var positions = [
+            {
+                title: 'cctv1',
+                latlng: new kakao.maps.LatLng(36.104359, 129.385868)
+            },
+            {
+                title: 'cctv2',
+                latlng: new kakao.maps.LatLng(36.104959, 129.385698)
+            },
+            {
+                title: 'cctv3',
+                latlng: new kakao.maps.LatLng(36.104459, 129.386868)
+            }
+        ]
+        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
+
+        for (var i = 0; i < positions.length; i ++) {
+            var imageSize = new kakao.maps.Size(24,35);
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+            var marker = new kakao.maps.Marker({
+                position: positions[i].latlng,
+                title: positions[i].title,
+                image: markerImage,
+                clickable: true,
+                map: map
+            });
+            marker.setDraggable(true);
+
+            var infowindow = new kakao.maps.InfoWindow({
+                content: positions[i].title
+                // removable: true;
+            });
+            kakao.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+            });
+       }
+    </script>
+
+</body>
