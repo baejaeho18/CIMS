@@ -63,10 +63,19 @@
                 content: positions[i].title
                 // removable: true;
             });
-            kakao.maps.event.addListener(marker, 'click', function() {
+            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+        }
+        function makeOverListener(map, marker, infowindow) {
+            return function() {
                 infowindow.open(map, marker);
-            });
-       }
+            };
+        }
+        function makeOutListener(infowindow) {  // closer 없으면 마지막 마커만 이벤트 실행됨
+            return function() {
+                infowindow.close();
+            };
+        }
     </script>
 
 </body>
