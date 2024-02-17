@@ -6,16 +6,20 @@ import com.example.demo.repository.MemberRepository;
 
 import java.util.List;
 
-public class memberService {
+public class MemberService {
     private final MemberRepository memberRepository;
+    private long hashcode;
 
-    public memberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
     public Long join(Member member) {
         checkDuplicateId(member);
+        // duplicate check 후
         memberRepository.save(member);
+        member.setHashcode(hashcode++);
+        member.setValid(Boolean.TRUE);    // 계정 삭제 시 invalid로 바꾸기
         return member.getHashcode();
     }
 

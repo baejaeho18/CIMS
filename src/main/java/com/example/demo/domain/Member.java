@@ -6,6 +6,7 @@ public class Member {
     private String name;
     private String id;
     private String pwd;
+    private Boolean valid;
 
     public Long getHashcode() {
         return hashcode;
@@ -38,4 +39,8 @@ public class Member {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
+
+    public Boolean getValid() { return valid; }
+
+    public void setValid(Boolean valid) { this.valid = valid; }
 }

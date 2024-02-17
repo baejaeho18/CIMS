@@ -1,25 +1,228 @@
-<!-- home.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="kr">
 <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Maplist & Dashboard</title>
+    <style>
+        .container {
+            display: flex;
+            margin-top: 20px;
+        }
+        #tap-container {
+            width: 80%; /* 좌측 2/3 */
+        }
+        #checkbox-container {
+            width: 20%; /* 우측 1/3 */
+            padding-left: 20px;
+        }
+        .checkbox-item {
+            margin-bottom: 10px;
+        }
+
+        .infowindow-container {
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            max-width: 200px;
+        }
+        .infowindow-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            /*margin-top: 20px;*/
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+        .tab button:hover {
+            background-color: #c0d576dd;
+            border: 2px;
+        }
+        .tab button.active {
+            background-color: #ccc;
+        }
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
 </head>
 <body>
-<h2>Home</h2>
-<div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'dashboard')">Dashboard</button>
-    <button class="tablinks" onclick="openTab(event, 'maplist')">Map List</button>
+<div class="container">
+    <div id="tap-container">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'maplist')">Maplist</button>
+            <button class="tablinks" onclick="openTab(event, 'dashboard')">Dashboard</button>
+        </div>
+        <div id="dashboard" class="tabcontent">
+            <h3>Dashboard Content</h3>
+            <!-- Dashboard 내용 추가 -->
+        </div>
+        <div id="maplist" class="tabcontent">
+            <h3>Maplist Content</h3>
+            <!-- Maplist 내용 추가 -->
+            <div id="map" style="width:100%;height:350px;"></div>
+        </div>
+    </div>
+    <div id="checkbox-container">
+        <div class="checkbox-item">
+            <input type="checkbox" id="cctv1" name="cctv1" checked>
+            <label for="cctv1">cctv1</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="cctv2" name="cctv2" checked>
+            <label for="cctv2">cctv2</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="cctv3" name="cctv3" checked>
+            <label for="cctv3">cctv3</label>
+        </div>
+    </div>
 </div>
 
-<div id="dashboard" class="tabcontent">
-    <h3>Dashboard Content</h3>
-</div>
+<!-- kakao sdk init -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
+<script>
+    Kakao.init('ce6dbfa467c59426f74bb64059c3f05e');
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ce6dbfa467c59426f74bb64059c3f05e"></script>
+<script>
+    var map;
+    var markers = [];
 
-<div id="maplist" class="tabcontent">
-    <h3>Map List Content</h3>
-</div>
+    function initMap() {
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(36.104359, 129.385868),
+            level: 3
+        };
+        map = new kakao.maps.Map(container, options);
 
-<script src="js/script.js"></script>
+        // markers
+        var positions = [
+            {
+                title: 'cctv1',
+                latlng: new kakao.maps.LatLng(36.104359, 129.385868)
+            },
+            {
+                title: 'cctv2',
+                latlng: new kakao.maps.LatLng(36.104959, 129.385698)
+            },
+            {
+                title: 'cctv3',
+                latlng: new kakao.maps.LatLng(36.104459, 129.386868)
+            }
+        ];
+
+        for (var i = 0; i < positions.length; i++) {
+            addMarker(positions[i]);
+        }
+    }
+
+    function addMarker(positionInfo) {
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: positionInfo.latlng,
+            title: positionInfo.title
+        });
+
+        markers.push(marker);
+
+        kakao.maps.event.addListener(marker, 'click', function() {
+            // 마커를 클릭할 때 정보 창을 열도록 합니다.
+            var infowindowContent = document.createElement('div');
+            infowindowContent.className = 'infowindow-container';
+
+            var titleElement = document.createElement('div');
+            titleElement.className = 'infowindow-title';
+            titleElement.innerText = positionInfo.title;
+            infowindowContent.appendChild(titleElement);
+
+            var infowindow = new kakao.maps.InfoWindow({
+                content: infowindowContent,
+                removable: true
+            });
+
+            infowindow.open(map, marker);
+        });
+    }
+
+    function updateMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+
+        markers = [];
+
+        var cctv1Checked = document.getElementById('cctv1').checked;
+        var cctv2Checked = document.getElementById('cctv2').checked;
+        var cctv3Checked = document.getElementById('cctv3').checked;
+
+        if (cctv1Checked) {
+            addMarker({
+                title: 'cctv1',
+                latlng: new kakao.maps.LatLng(36.104359, 129.385868)
+            });
+        }
+        if (cctv2Checked) {
+            addMarker({
+                title: 'cctv2',
+                latlng: new kakao.maps.LatLng(36.104959, 129.385698)
+            });
+        }
+        if (cctv3Checked) {
+            addMarker({
+                title: 'cctv3',
+                latlng: new kakao.maps.LatLng(36.104459, 129.386868)
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initMap();
+
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                updateMarkers();
+            });
+        });
+    });
+
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        // 모든 탭 내용을 숨깁니다.
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        // 탭 버튼의 활성 상태를 제거합니다.
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        // 클릭한 탭의 내용을 보이도록 설정하고 해당 버튼을 활성 상태로 표시합니다.
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+    // 페이지가 로드될 때 기본 탭을 설정합니다.
+    document.getElementsByClassName("tablinks")[0].click();
+</script>
 </body>
 </html>
