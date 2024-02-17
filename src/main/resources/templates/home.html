@@ -1,0 +1,25 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>Home</h2>
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'dashboard')">Dashboard</button>
+    <button class="tablinks" onclick="openTab(event, 'maplist')">Map List</button>
+</div>
+
+<div id="dashboard" class="tabcontent">
+    <h3>Dashboard Content</h3>
+</div>
+
+<div id="maplist" class="tabcontent">
+    <h3>Map List Content</h3>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

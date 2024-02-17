@@ -18,9 +18,9 @@ public class DemoController {
         return "dashboard";
     }
 
-    @GetMapping("/login")
-    public String login(Model model){
-        model.addAttribute("data", "login!!");
-        return "login";
-    }
+//    @GetMapping("/login")
+//    public String login(Model model){
+//        model.addAttribute("data", "login!!");
+//        return "login";
+//    }
 }
