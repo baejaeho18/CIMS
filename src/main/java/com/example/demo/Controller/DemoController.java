@@ -17,4 +17,10 @@ public class DemoController {
         model.addAttribute("data", "dashboard!!");
         return "dashboard";
     }
+
+//    @GetMapping("/login")
+//    public String login(Model model){
+//        model.addAttribute("data", "login!!");
+//        return "login";
+//    }
 }
