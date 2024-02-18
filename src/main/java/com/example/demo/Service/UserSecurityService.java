@@ -21,4 +21,19 @@ public class UserSecurityService implements UserDetailsService {
         Member user = memberRepository.findById(username).orElseThrow(()-> new RuntimeException());
         return SecurityMember.of(user);
     }
+
+    //    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user = User.withDefaultPasswordEncoder()
+//                .username("user")
+//                .password("password")
+//                .roles("USER")
+//                .build();
+//        UserDetails admin = User.withDefaultPasswordEncoder()
+//                .username("admin")
+//                .password("password")
+//                .roles("ADMIN", "USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(user, admin);
+//    }
 }

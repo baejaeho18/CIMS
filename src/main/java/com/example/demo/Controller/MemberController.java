@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Service.MemberService;
 import com.example.demo.domain.Member;
 import com.example.demo.domain.MemberDto;
+import com.example.demo.domain.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,9 @@ public class MemberController {
 
     @PostMapping("/signup")
     public String signup(MemberDto memberDto) {
+//        memberService.join(new Member("user", "user", "password"));
+//        memberService.join(new Member("admin", "admin", "password", UserRole.ADMIN));
+
         // 회원가입
         Member member = new Member();
         member.setId(memberDto.getId());

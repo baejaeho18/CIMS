@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.domain.Member;
+import com.example.demo.domain.UserRole;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Array;
@@ -15,6 +16,7 @@ public class MemoryMemberRepository implements MemberRepository {
     public Member save(Member member) {
         member.setHashcode(++sequence);
         member.setValid(Boolean.TRUE);
+        member.setUserRole(UserRole.USER);
         store.put(member.getHashcode(), member);
         return member;
     }
