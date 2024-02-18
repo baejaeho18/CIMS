@@ -3,12 +3,16 @@ package com.example.demo.Service;
 
 import com.example.demo.domain.Member;
 import com.example.demo.repository.MemberRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class MemberService {
     private final MemberRepository memberRepository;
-    private long hashcode;
+    private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
+
 
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
@@ -18,8 +22,6 @@ public class MemberService {
         checkDuplicateId(member);
         // duplicate check 후
         memberRepository.save(member);
-        member.setHashcode(hashcode++);
-        member.setValid(Boolean.TRUE);    // 계정 삭제 시 invalid로 바꾸기
         return member.getHashcode();
     }
 
@@ -33,6 +35,13 @@ public class MemberService {
     public List<Member> findMembers()
     {
         return memberRepository.findAll();
+    }
+
+    public void printMembers(List<Member> members) {
+        logger.info("memberList:");
+        for (Member member : members) {
+            logger.info("Name: {}, ID: {}, PWD: {}", member.getName(), member.getId(), member.getPwd());
+        }
     }
 
 }

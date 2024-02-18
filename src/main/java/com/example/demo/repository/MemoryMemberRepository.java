@@ -14,6 +14,7 @@ public class MemoryMemberRepository implements MemberRepository {
     @Override
     public Member save(Member member) {
         member.setHashcode(++sequence);
+        member.setValid(Boolean.TRUE);
         store.put(member.getHashcode(), member);
         return member;
     }

@@ -4,19 +4,21 @@ import com.example.demo.Service.MemberService;
 import com.example.demo.domain.Member;
 import com.example.demo.domain.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
+@Controller
 public class MemberController {
     @Autowired
     private MemberService memberService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -32,11 +34,13 @@ public class MemberController {
         memberService.join(member); // service 에서 duplicate 검사 후 실제로 repository에 저장
 
         // 자동 로그인
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
-                member.getId(), memberDto.getPwd());
-        Authentication authentication = authenticationManager.authenticate(authRequest);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
+//                member.getId(), memberDto.getPwd());
+//        Authentication authentication = authenticationManager.authenticate(authRequest);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return "redirect:/home";
+        memberService.printMembers(memberService.findMembers());
+
+        return "redirect:/login";
     }
 }

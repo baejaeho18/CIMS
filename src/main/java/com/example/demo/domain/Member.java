@@ -1,5 +1,10 @@
 package com.example.demo.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Member {
 
     private Long hashcode;
@@ -7,40 +12,13 @@ public class Member {
     private String id;
     private String pwd;
     private Boolean valid;
-
-    public Long getHashcode() {
-        return hashcode;
+    private UserRole userRole;
+    public Member() {
+        this.userRole = UserRole.USER;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return name+id+pwd;
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setHashcode(Long hashcode) {
-        this.hashcode = hashcode;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
-
-    public Boolean getValid() { return valid; }
-
-    public void setValid(Boolean valid) { this.valid = valid; }
 }
