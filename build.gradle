@@ -8,7 +8,7 @@ apply plugin: 'war'
 apply plugin: 'application'
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-//mainClassName = "com/example/demo/Controller/DemoApplication"
+//mainClassName = "com/example/demo/DemoApplication"
 
 java {
     sourceCompatibility = '17'
@@ -21,8 +21,11 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.projectlombok:lombok:1.18.22'
 
     //grpc interface 추가
     implementation 'net.devh:grpc-server-spring-boot-starter:2.15.0.RELEASE'
