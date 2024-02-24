@@ -7,11 +7,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Maplist & Dashboard</title>
     <style>
-        .container {
+        .top-menu {
+            background-color: #f8f9fa; /* 배경 색상 설정 */
+            border-bottom: 1px solid #ddd; /* 밑줄 추가 */
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            margin-top: 20px;
-            /*max-width: 800px;*/
-            /*padding: 20px;*/
+            justify-content: space-between; /* 왼쪽과 오른쪽 간격 벌리기 */
+            padding: 10px 20px; /* 내부 여백 설정 */
+        }
+        .left-menu, .right-menu {
+            display: flex;
+        }
+        .left-menu a, .right-menu a {
+            padding: 10px 20px; /* 링크의 여백 설정 */
+            text-decoration: none; /* 밑줄 제거 */
+            color: #333; /* 링크 색상 설정 */
+        }
+        .left-menu a:hover, .right-menu a:hover {
+            background-color: #e9ecef; /* 호버 시 배경색 변경 */
+            border-radius: 5px; /* 모서리를 둥글게 만듭니다. */
+        }
+        .right-menu a:last-child {
+            margin-left: auto; /* 오른쪽 끝으로 정렬 */
+        }
+
+        .container {
+            max-width: 1200px;
+            display: flex;
+            margin: auto;
+            padding: 10px 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -98,9 +123,9 @@
             <a href="/home">Home</a>
         </div>
         <div class="right-menu">
+            <a href="/cctv">CCTV-test</a>
+            <a href="/member-list">멤버목록</a>
             <a href="/logout">로그아웃</a>
-            <a href="/member-list">멤버 목록</a>
-            <a href="/cctv">CCTV 창</a>
         </div>
     </div>
     <div class="container">
