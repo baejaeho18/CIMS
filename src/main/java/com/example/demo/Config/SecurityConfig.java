@@ -28,16 +28,19 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login", "/signup").permitAll()
-                        .requestMatchers("/home").authenticated()
+                        .requestMatchers("/home", "/cctv/**").authenticated()
                         .requestMatchers("/admin").hasRole("ADMIN")
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
-//                )
-//                .logout((formout) -> formout
-//                    .permitAll()
+                )
+                .logout((formout) -> formout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .permitAll()
                 );
         return http.build();
     }
