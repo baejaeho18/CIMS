@@ -7,6 +7,7 @@ import com.example.demo.repository.MemberRepository;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +23,11 @@ public class MemberService {
 
     @PostConstruct
     public void init(){
-        memberRepository.save(new Member("user", "user", "password", UserRole.USER));
-        memberRepository.save(new Member("admin", "admin", "password", UserRole.ADMIN));
+        String encodedPasswordUser = new BCryptPasswordEncoder().encode("password");
+        String encodedPasswordAdmin = new BCryptPasswordEncoder().encode("password");
+
+        memberRepository.save(new Member("user", "user", encodedPasswordUser, UserRole.USER));
+        memberRepository.save(new Member("admin", "admin", encodedPasswordAdmin, UserRole.ADMIN));
     }
 
     public Long join(Member member) {
