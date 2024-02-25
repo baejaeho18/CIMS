@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login", "/signup").permitAll()
                         .requestMatchers("/home", "/cctv/**").authenticated()
-                        .requestMatchers("/memberList").hasRole("ADMIN")
+                        .requestMatchers("/memberList", "/delete", "/promote").hasRole("ADMIN")
                 )
                 .formLogin((formIn) -> formIn
                         .loginPage("/login")

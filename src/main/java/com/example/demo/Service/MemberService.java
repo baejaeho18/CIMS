@@ -61,4 +61,16 @@ public class MemberService {
         logger.info("Name: {}, ID: {}, PWD: {}, Role: {}", member.getName(), member.getId(), member.getPwd(), member.getUserRole());
     }
 
+    public void deleteMemberById(String memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다: " + memberId));
+        memberRepository.delete(member);
+    }
+
+    // 회원을 관리자로 승급하는 메소드
+    public void promoteMemberToAdmin(String memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다: " + memberId));
+        member.setUserRole(UserRole.ROLE_ADMIN);
+    }
 }

@@ -3,8 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 정보</title>
+    <style>
+        .top-menu {
+            background-color: #f8f9fa; /* 배경 색상 설정 */
+            border-bottom: 1px solid #ddd; /* 밑줄 추가 */
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between; /* 왼쪽과 오른쪽 간격 벌리기 */
+            padding: 10px 20px; /* 내부 여백 설정 */
+        }
+        .left-menu, .right-menu {
+            display: flex;
+        }
+        .left-menu a, .right-menu a {
+            padding: 10px 20px; /* 링크의 여백 설정 */
+            text-decoration: none; /* 밑줄 제거 */
+            color: #333; /* 링크 색상 설정 */
+        }
+        .left-menu a:hover, .right-menu a:hover {
+            background-color: #e9ecef; /* 호버 시 배경색 변경 */
+            border-radius: 5px; /* 모서리를 둥글게 만듭니다. */
+        }
+        .right-menu a:last-child {
+            margin-left: auto; /* 오른쪽 끝으로 정렬 */
+        }
+    </style>
 </head>
 <body>
+<div class="top-menu">
+    <div class="left-menu">
+        <a href="/home">Home</a>
+    </div>
+    <div class="right-menu">
+        <a href="/cctv">CCTV-test</a>
+        <a href="/memberList">멤버목록</a>
+        <a href="/logout">로그아웃</a>
+    </div>
+</div>
 <div class="container">
     <div>
         <table border="1" style="width:800px">
@@ -24,6 +60,18 @@
                 <td th:text="${member.name}"></td>
                 <td th:text="${member.id}"></td>
                 <td th:text="${member.userRole}"></td>
+                <td>
+                    <!-- 삭제 버튼 -->
+                    <form th:action="@{/delete}" method="post">
+                        <input type="hidden" name="id" th:value="${member.id}" />
+                        <button type="submit">계정 삭제</button>
+                    </form>
+                    <!-- 승급 버튼 -->
+                    <form th:action="@{/promote}" method="post">
+                        <input type="hidden" name="id" th:value="${member.id}" />
+                        <button type="submit">Admin 추가</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
