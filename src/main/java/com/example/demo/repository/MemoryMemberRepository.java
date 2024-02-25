@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.domain.Member;
 import com.example.demo.domain.UserRole;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Array;

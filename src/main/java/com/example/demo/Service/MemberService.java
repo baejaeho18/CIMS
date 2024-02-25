@@ -2,7 +2,9 @@ package com.example.demo.Service;
 
 
 import com.example.demo.domain.Member;
+import com.example.demo.domain.UserRole;
 import com.example.demo.repository.MemberRepository;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,12 @@ public class MemberService {
 
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
+    }
+
+    @PostConstruct
+    public void init(){
+        memberRepository.save(new Member("user", "user", "password", UserRole.USER));
+        memberRepository.save(new Member("admin", "admin", "password", UserRole.ADMIN));
     }
 
     public Long join(Member member) {
