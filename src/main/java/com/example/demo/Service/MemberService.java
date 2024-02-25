@@ -26,8 +26,8 @@ public class MemberService {
         String encodedPasswordUser = new BCryptPasswordEncoder().encode("password");
         String encodedPasswordAdmin = new BCryptPasswordEncoder().encode("password");
 
-        memberRepository.save(new Member("user", "user", encodedPasswordUser, UserRole.USER));
-        memberRepository.save(new Member("admin", "admin", encodedPasswordAdmin, UserRole.ADMIN));
+        memberRepository.save(new Member("user", "user", encodedPasswordUser, UserRole.ROLE_USER));
+        memberRepository.save(new Member("admin", "admin", encodedPasswordAdmin, UserRole.ROLE_ADMIN));
     }
 
     public Long join(Member member) {
@@ -54,6 +54,11 @@ public class MemberService {
         for (Member member : members) {
             logger.info("Name: {}, ID: {}, PWD: {}, Role: {}", member.getName(), member.getId(), member.getPwd(), member.getUserRole());
         }
+    }
+
+    public void printMember(Member member) {
+        logger.info("Login member:");
+        logger.info("Name: {}, ID: {}, PWD: {}, Role: {}", member.getName(), member.getId(), member.getPwd(), member.getUserRole());
     }
 
 }

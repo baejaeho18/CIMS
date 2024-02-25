@@ -23,6 +23,11 @@ public class Member {
         this.userRole = userRole;
     }
 
+    @Override
+    public String toString() {
+        return "member: "+this.id+" "+this.userRole.toString();
+    }
+
     public Long getHashcode() {
         return hashcode;
     }

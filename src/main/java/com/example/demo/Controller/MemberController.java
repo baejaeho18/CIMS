@@ -34,7 +34,7 @@ public class MemberController {
         member.setId(memberDto.getId());
         member.setPwd(passwordEncoder.encode(memberDto.getPwd()));
         member.setName(memberDto.getName());
-        member.setUserRole(UserRole.USER);      // 차후 admin 계정에서만 admin 권한 줄 수 있고 default로 user 권한
+        member.setUserRole(UserRole.ROLE_USER);      // 차후 admin 계정에서만 admin 권한 줄 수 있고 default로 user 권한
         memberService.join(member); // service 에서 duplicate 검사 후 실제로 repository에 저장
 
         // 자동 로그인
