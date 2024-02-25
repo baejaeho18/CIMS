@@ -1,3 +1,4 @@
+<!--home.html-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -163,6 +164,18 @@
                         Your browser does not support the video tag.
                     </video>
                 </div>
+
+                <!--test-->
+                <% for (CCTV cctv : cctvList) { %>
+                    <div class="video-container">
+                        <div class="cctv-label"><%= cctv.getName() %></div>
+                        <video controls autoplay>
+                            <source src="<%= cctv.getStoragePsth() %>" type = "video/mp4">
+                            Your browser does not suppoprt the video tag.
+                        </video>
+                    </div>
+                <% } %>
+
             </div>
             <div id="maplist" class="tabcontent">
     <!--            <h3>Maplist Content</h3>-->
@@ -187,6 +200,15 @@
                 <input type="checkbox" id="cctv4" name="cctv4" checked>
                 <label for="cctv4">cctv4</label>
             </div>
+
+            <!--test-->
+            <% for (CCTV cctv : cctvList) { %>
+            <div class="checkbox-item">
+                <input type="checkbox" id="<%= cctv.getId() %>" name="<%= cctv.getId() %>" checked>
+                <label for="<%= cctv.getId() %>"><%= cctv.getName() %></label>
+            </div>
+            <% } %>
+
         </div>
     </div>
 
