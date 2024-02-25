@@ -1,5 +1,6 @@
 package com.example.demo.Config;
 
+import com.example.demo.domain.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
@@ -29,14 +30,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login", "/signup").permitAll()
                         .requestMatchers("/home", "/cctv/**").authenticated()
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/memberList", "/delete", "/promote").hasRole("ADMIN")
                 )
-                .formLogin((form) -> form
+                .formLogin((formIn) -> formIn
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
-                .logout((formout) -> formout
+                .logout((formOut) -> formOut
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)

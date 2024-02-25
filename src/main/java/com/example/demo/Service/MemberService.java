@@ -26,8 +26,8 @@ public class MemberService {
         String encodedPasswordUser = new BCryptPasswordEncoder().encode("password");
         String encodedPasswordAdmin = new BCryptPasswordEncoder().encode("password");
 
-        memberRepository.save(new Member("user", "user", encodedPasswordUser, UserRole.USER));
-        memberRepository.save(new Member("admin", "admin", encodedPasswordAdmin, UserRole.ADMIN));
+        memberRepository.save(new Member("user", "user", encodedPasswordUser, UserRole.ROLE_USER));
+        memberRepository.save(new Member("admin", "admin", encodedPasswordAdmin, UserRole.ROLE_ADMIN));
     }
 
     public Long join(Member member) {
@@ -52,8 +52,25 @@ public class MemberService {
     public void printMembers(List<Member> members) {
         logger.info("memberList:");
         for (Member member : members) {
-            logger.info("Name: {}, ID: {}, PWD: {}", member.getName(), member.getId(), member.getPwd());
+            logger.info("Name: {}, ID: {}, PWD: {}, Role: {}", member.getName(), member.getId(), member.getPwd(), member.getUserRole());
         }
     }
 
+    public void printMember(Member member) {
+        logger.info("Login member:");
+        logger.info("Name: {}, ID: {}, PWD: {}, Role: {}", member.getName(), member.getId(), member.getPwd(), member.getUserRole());
+    }
+
+    public void deleteMemberById(String memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다: " + memberId));
+        memberRepository.delete(member);
+    }
+
+    // 회원을 관리자로 승급하는 메소드
+    public void promoteMemberToAdmin(String memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다: " + memberId));
+        member.setUserRole(UserRole.ROLE_ADMIN);
+    }
 }

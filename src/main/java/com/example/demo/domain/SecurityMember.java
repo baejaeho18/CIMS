@@ -28,7 +28,7 @@ public class SecurityMember implements UserDetails {
                 return member.getUserRole().name();
             }
         });
-        return null;
+        return collection;
     }
 
     @Override

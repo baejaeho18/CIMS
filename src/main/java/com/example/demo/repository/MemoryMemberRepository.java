@@ -17,7 +17,6 @@ public class MemoryMemberRepository implements MemberRepository {
     public Member save(Member member) {
         member.setHashcode(++sequence);
         member.setValid(Boolean.TRUE);
-        member.setUserRole(UserRole.USER);
         store.put(member.getHashcode(), member);
         return member;
     }
@@ -40,5 +39,10 @@ public class MemoryMemberRepository implements MemberRepository {
     @Override
     public List<Member> findAll() {
         return new ArrayList<>(store.values());
+    }
+
+    @Override
+    public void delete(Member member) {
+        store.remove(member.getHashcode());
     }
 }

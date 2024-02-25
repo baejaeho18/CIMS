@@ -4,6 +4,31 @@
 <head>
     <title>Video live streaming</title>
     <style>
+        .top-menu {
+            background-color: #f8f9fa; /* 배경 색상 설정 */
+            border-bottom: 1px solid #ddd; /* 밑줄 추가 */
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between; /* 왼쪽과 오른쪽 간격 벌리기 */
+            padding: 10px 20px; /* 내부 여백 설정 */
+        }
+        .left-menu, .right-menu {
+            display: flex;
+        }
+        .left-menu a, .right-menu a {
+            padding: 10px 20px; /* 링크의 여백 설정 */
+            text-decoration: none; /* 밑줄 제거 */
+            color: #333; /* 링크 색상 설정 */
+        }
+        .left-menu a:hover, .right-menu a:hover {
+            background-color: #e9ecef; /* 호버 시 배경색 변경 */
+            border-radius: 5px; /* 모서리를 둥글게 만듭니다. */
+        }
+        .right-menu a:last-child {
+            margin-left: auto; /* 오른쪽 끝으로 정렬 */
+        }
+
         #videoFrame {
             text-align: center;
         }
@@ -12,6 +37,16 @@
 </head>
 
 <body>
+<div class="top-menu">
+    <div class="left-menu">
+        <a href="/home">Home</a>
+    </div>
+    <div class="right-menu">
+        <a href="/cctv">CCTV-test</a>
+        <a href="/memberList">멤버목록</a>
+        <a href="/logout">로그아웃</a>
+    </div>
+</div>
 <div id="videoFrame">
     <video width="640" height="480" id="video" autoplay muted controls></video>
     <div>The video may have a delay of up to 30 seconds.</div>
