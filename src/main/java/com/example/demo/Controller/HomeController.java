@@ -20,6 +20,7 @@ public class HomeController {
         log.info(authentication.getName());
         authentication.getAuthorities().stream().forEach((grantedAuthority -> log.info(grantedAuthority.getAuthority())));
 
+
         return "home";
     }
 

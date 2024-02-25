@@ -1,7 +1,6 @@
 package com.example.demo.domain;
 
 public class Member {
-
     private Long hashcode;
     private String name;
     private String id;
