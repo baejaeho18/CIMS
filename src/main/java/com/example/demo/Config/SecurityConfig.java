@@ -32,12 +32,12 @@ public class SecurityConfig {
                         .requestMatchers("/home", "/cctv/**").authenticated()
                         .requestMatchers("/memberList").hasRole("ADMIN")
                 )
-                .formLogin((form) -> form
+                .formLogin((formIn) -> formIn
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
-                .logout((formout) -> formout
+                .logout((formOut) -> formOut
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)

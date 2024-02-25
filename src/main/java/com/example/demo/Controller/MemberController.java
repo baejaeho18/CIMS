@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -44,7 +46,14 @@ public class MemberController {
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         memberService.printMembers(memberService.findMembers());
-
         return "redirect:/login";
+    }
+
+    @GetMapping("/memberList") // members 페이지에 대해 Get 으로 넘어올 때 -> 주로 값을 불러오는 하는 경우
+    public String getMemberList(Model model) { // Model 사용을 list 로 사용
+        List<Member> members = memberService.findMembers(); // memberService.findMembers() 를 list 형식으로 저장
+        model.addAttribute("members", members);
+        // 파라미터로 넘어온 members 을 model에 담아서 members/members_list 의 members 로 넘긴다.
+        return "memberList"; // return 시에는 앞에  " / " 가 없어야함
     }
 }
