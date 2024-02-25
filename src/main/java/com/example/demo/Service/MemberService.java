@@ -52,7 +52,7 @@ public class MemberService {
     public void printMembers(List<Member> members) {
         logger.info("memberList:");
         for (Member member : members) {
-            logger.info("Name: {}, ID: {}, PWD: {}", member.getName(), member.getId(), member.getPwd());
+            logger.info("Name: {}, ID: {}, PWD: {}, Role: {}", member.getName(), member.getId(), member.getPwd(), member.getUserRole());
         }
     }
 

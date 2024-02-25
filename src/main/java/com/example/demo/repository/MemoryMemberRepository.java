@@ -17,7 +17,6 @@ public class MemoryMemberRepository implements MemberRepository {
     public Member save(Member member) {
         member.setHashcode(++sequence);
         member.setValid(Boolean.TRUE);
-        member.setUserRole(UserRole.USER);
         store.put(member.getHashcode(), member);
         return member;
     }

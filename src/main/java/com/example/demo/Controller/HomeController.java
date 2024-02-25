@@ -24,4 +24,9 @@ public class HomeController {
     public String logout() {
         return "logout";
     }
+
+    @GetMapping("/memberList")
+    public String memberList() {
+        return "memberList";
+    }
 }
