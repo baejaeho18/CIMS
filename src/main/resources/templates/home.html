@@ -169,24 +169,6 @@
         var map;
         var markers = [];
         // markers
-        var positions = [
-            {
-                title: 'cctv1',
-                latlng: new kakao.maps.LatLng(36.104359, 129.385868)
-            },
-            {
-                title: 'cctv2',
-                latlng: new kakao.maps.LatLng(36.104959, 129.385698)
-            },
-            {
-                title: 'cctv3',
-                latlng: new kakao.maps.LatLng(36.104459, 129.386868)
-            },
-            {
-                title: 'cctv4',
-                latlng: new kakao.maps.LatLng(36.103359, 129.386668)
-            }
-        ];
 
         function initMap() {
             var container = document.getElementById('map');
@@ -195,17 +177,16 @@
                 level: 3
             };
             map = new kakao.maps.Map(container, options);
-            positions.forEach(function(position) {
-                addMarker(position);
+            cctvs.forEach(function(cctv) {
+                addMarker(cctv);
             });
-
         }
 
-        function addMarker(positionInfo) {
+        function addMarker(cctv) {
             var marker = new kakao.maps.Marker({
                 map: map,
-                position: positionInfo.latlng,
-                title: positionInfo.title
+                position: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),
+                title: cctv.name
             });
             markers.push(marker);
 
@@ -215,7 +196,7 @@
                 infowindowContent.className = 'infowindow-container';
                 var titleElement = document.createElement('div');
                 titleElement.className = 'infowindow-title';
-                titleElement.innerText = positionInfo.title;
+                titleElement.innerText = cctv.name;
                 infowindowContent.appendChild(titleElement);
                 var infowindow = new kakao.maps.InfoWindow({
                     content: infowindowContent,
@@ -238,12 +219,12 @@
                 url: 'http://maps.google.com/mapfiles/ms/icons/grey-dot.png'
             };
 
-            positions.forEach(function(position) {
-                var varChecked = document.getElementById(position.title).checked;
+            cctvs.forEach(function(cctv) {
+                var varChecked = document.getElementById(cctv.name).checked;
                 if (varChecked) {
                     addMarker({
-                        title: position.title,
-                        latlng: position.latlng,
+                        title: cctv.name,
+                        latlng: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),
                         icon: blueMarkerIcon
                     });
                 }
