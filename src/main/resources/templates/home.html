@@ -165,7 +165,8 @@
         Kakao.init('ce6dbfa467c59426f74bb64059c3f05e');
     </script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ce6dbfa467c59426f74bb64059c3f05e"></script>
-    <script>
+    <script th:inline="javascript">
+        var cctvs = [[${cctvs}]];
         var map;
         var markers = [];
         // markers
@@ -185,7 +186,7 @@
         function addMarker(cctv) {
             var marker = new kakao.maps.Marker({
                 map: map,
-                position: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),
+                position: new kakao.maps.LatLng(cctv.xcoordinate, cctv.ycoordinate),
                 title: cctv.name
             });
             markers.push(marker);
@@ -224,7 +225,7 @@
                 if (varChecked) {
                     addMarker({
                         title: cctv.name,
-                        latlng: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),
+                        latlng: new kakao.maps.LatLng(cctv.xcoordinate, cctv.ycoordinate),
                         icon: blueMarkerIcon
                     });
                 }
