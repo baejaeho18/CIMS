@@ -221,13 +221,8 @@
         };
 
         cctvs.forEach(function(cctv) {
-            var varChecked = document.getElementById(cctv.name).checked;
-            if (varChecked) {
-                addMarker({
-                    title: cctv.name,
-                    latlng: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),
-                    icon: blueMarkerIcon
-                });
+            if (document.getElementById(cctv.name).checked) {
+                addMarker(cctv);
             }
         });
     }
