@@ -142,17 +142,20 @@
                     Your browser does not support the video tag.
                 </video>
             </div>
+
         </div>
         <div id="maplist" class="tabcontent">
             <div id="map" style="width:90%;height:500px;"></div>
         </div>
     </div>
+
     <div id="checkbox-container">
         <!--test-->
         <div th:each="cctv : ${cctvs}" class="checkbox-item">
             <input type="checkbox" th:id="${'cctv' + cctv.id}" th:name="${'cctv' + cctv.name}" checked>
             <label th:for="${'cctv' + cctv.id}" th:text="${cctv.name}">CCTV</label>
         </div>
+
     </div>
 </div>
 
@@ -162,27 +165,11 @@
     Kakao.init('ce6dbfa467c59426f74bb64059c3f05e');
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ce6dbfa467c59426f74bb64059c3f05e"></script>
-<script>
+<script th:inline="javascript">
+    var cctvs = [[${cctvs}]];
     var map;
     var markers = [];
-    var positions = [
-        {
-            title: 'cctv1',
-            latlng: new kakao.maps.LatLng(36.104359, 129.385868)
-        },
-        {
-            title: 'cctv2',
-            latlng: new kakao.maps.LatLng(36.104959, 129.385698)
-        },
-        {
-            title: 'cctv3',
-            latlng: new kakao.maps.LatLng(36.104459, 129.386868)
-        },
-        {
-            title: 'cctv4',
-            latlng: new kakao.maps.LatLng(36.103359, 129.386668)
-        }
-    ];
+    // markers
 
     function initMap() {
         var container = document.getElementById('map');
@@ -191,16 +178,16 @@
             level: 3
         };
         map = new kakao.maps.Map(container, options);
-        positions.forEach(function(position) {
-            addMarker(position);
+        cctvs.forEach(function(cctv) {
+            addMarker(cctv);
         });
     }
 
-    function addMarker(positionInfo) {
+    function addMarker(cctv) {
         var marker = new kakao.maps.Marker({
             map: map,
-            position: positionInfo.latlng,
-            title: positionInfo.title
+            position: new kakao.maps.LatLng(cctv.xcoordinate, cctv.ycoordinate),
+            title: cctv.name
         });
         markers.push(marker);
 
@@ -210,7 +197,7 @@
             infowindowContent.className = 'infowindow-container';
             var titleElement = document.createElement('div');
             titleElement.className = 'infowindow-title';
-            titleElement.innerText = positionInfo.title;
+            titleElement.innerText = cctv.name;
             infowindowContent.appendChild(titleElement);
             var infowindow = new kakao.maps.InfoWindow({
                 content: infowindowContent,
@@ -233,12 +220,12 @@
             url: 'http://maps.google.com/mapfiles/ms/icons/grey-dot.png'
         };
 
-        positions.forEach(function(position) {
-            var varChecked = document.getElementById(position.title).checked;
+        cctvs.forEach(function(cctv) {
+            var varChecked = document.getElementById(cctv.name).checked;
             if (varChecked) {
                 addMarker({
-                    title: position.title,
-                    latlng: position.latlng,
+                    title: cctv.name,
+                    latlng: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),
                     icon: blueMarkerIcon
                 });
             }
@@ -262,6 +249,7 @@
                     videos[index].style.display = 'none';
                     labels[index].style.display = 'none';
                 }
+
             });
         });
     });
@@ -273,10 +261,12 @@
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
         }
+
         tablinks = document.getElementsByClassName("tablinks");
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
+
         document.getElementById(tabName).style.display = "block";
         evt.currentTarget.className += " active";
     }
