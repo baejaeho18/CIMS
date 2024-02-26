@@ -1,6 +1,6 @@
 <!--home.html-->
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -105,8 +105,6 @@
         }
         .video-container {
             width: calc(50% - 20px); /* 컨테이너의 너비 설정 */
-            margin-top: 20px;
-            margin-bottom: 20px;
             max-width: 400px; /* 비디오 최대 너비 */
             display: inline-block;
             vertical-align: top;
@@ -119,276 +117,156 @@
     </style>
 </head>
 <body>
-    <div class="top-menu">
-        <div class="left-menu">
-            <a href="/home">Home</a>
-        </div>
-        <div class="right-menu">
-            <a href="/cctv">CCTV-test</a>
-            <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/memberList">멤버목록</a>
-            <a href="/logout">로그아웃</a>
-        </div>
+<div class="top-menu">
+    <div class="left-menu">
+        <a href="/home">Home</a>
     </div>
-    <div class="container">
-        <div id="tap-container">
-            <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'maplist')">Maplist</button>
-                <button class="tablinks" onclick="openTab(event, 'dashboard')">Dashboard</button>
-            </div>
-            <div id="dashboard" class="tabcontent">
-                <div class="video-container">
-                    <div class="cctv-label">CCTV1</div>
-                    <video controls autoplay>
-                        <source src="/videos/Faker-lol.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="video-container">
-                    <div class="cctv-label">CCTV2</div>
-                    <video controls autoplay>
-                        <source src="/videos/winter-betterthings.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="video-container">
-                    <div class="cctv-label">CCTV3</div>
-                    <video controls autoplay>
-                        <source src="/videos/b2b-garosu.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="video-container">
-                    <div class="cctv-label">CCTV4</div>
-                    <video controls autoplay>
-                        <source src="/videos/park-radio.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-
-                <!--test-->
-                <% for (CCTV cctv : cctvList) { %>
-                    <div class="video-container">
-                        <div class="cctv-label"><%= cctv.getName() %></div>
-                        <video controls autoplay>
-                            <source src="<%= cctv.getStoragePsth() %>" type = "video/mp4">
-                            Your browser does not suppoprt the video tag.
-                        </video>
-                    </div>
-                <% } %>
-
-            </div>
-            <div id="maplist" class="tabcontent">
-    <!--            <h3>Maplist Content</h3>-->
-                <div id="map" style="width:90%;height:500px;"></div>
-            </div>
+    <div class="right-menu">
+        <a href="/cctv">CCTV-test</a>
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" href="/memberList">멤버목록</a>
+        <a href="/logout">로그아웃</a>
+    </div>
+</div>
+<div class="container">
+    <div id="tap-container">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'maplist')">Maplist</button>
+            <button class="tablinks" onclick="openTab(event, 'dashboard')">Dashboard</button>
         </div>
-
-        <div id="checkbox-container">
-            <div class="checkbox-item">
-                <input type="checkbox" id="cctv1" name="cctv1" checked>
-                <label for="cctv1">cctv1</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="cctv2" name="cctv2" checked>
-                <label for="cctv2">cctv2</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="cctv3" name="cctv3" checked>
-                <label for="cctv3">cctv3</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="cctv4" name="cctv4" checked>
-                <label for="cctv4">cctv4</label>
-            </div>
-
+        <div id="dashboard" class="tabcontent">
             <!--test-->
-            <% for (CCTV cctv : cctvList) { %>
-            <div class="checkbox-item">
-                <input type="checkbox" id="<%= cctv.getId() %>" name="<%= cctv.getId() %>" checked>
-                <label for="<%= cctv.getId() %>"><%= cctv.getName() %></label>
+            <div th:each="cctv : ${cctvs}" class="video-container">
+                <div class="cctv-label" th:text="${cctv.name}">CCTV</div>
+                <video controls autoplay>
+                    <source th:src="@{|${cctv.storagePath}|}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
-            <% } %>
 
+        </div>
+        <div id="maplist" class="tabcontent">
+            <div id="map" style="width:90%;height:500px;"></div>
         </div>
     </div>
 
-    <!-- kakao sdk init -->
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
-    <script>
-        Kakao.init('ce6dbfa467c59426f74bb64059c3f05e');
-    </script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ce6dbfa467c59426f74bb64059c3f05e"></script>
-    <script>
-        var map;
-        var markers = [];
-        // markers
-        var positions = [
-            {
-                title: 'cctv1',
-                latlng: new kakao.maps.LatLng(36.104359, 129.385868)
-            },
-            {
-                title: 'cctv2',
-                latlng: new kakao.maps.LatLng(36.104959, 129.385698)
-            },
-            {
-                title: 'cctv3',
-                latlng: new kakao.maps.LatLng(36.104459, 129.386868)
-            },
-            {
-                title: 'cctv4',
-                latlng: new kakao.maps.LatLng(36.103359, 129.386668)
-            }
-        ];
+    <div id="checkbox-container">
+        <!--test-->
+        <div th:each="cctv : ${cctvs}" class="checkbox-item">
+            <input type="checkbox" th:id="${'cctv' + cctv.id}" th:name="${'cctv' + cctv.name}" checked>
+            <label th:for="${'cctv' + cctv.id}" th:text="${cctv.name}">CCTV</label>
+        </div>
 
-        function initMap() {
-            var container = document.getElementById('map');
-            var options = {
-                center: new kakao.maps.LatLng(36.104359, 129.385868),
-                level: 3
-            };
-            map = new kakao.maps.Map(container, options);
-            for (var i = 0; i < positions.length; i++) {
-                addMarker(positions[i]);
-            }
-        }
+    </div>
+</div>
 
-        function addMarker(positionInfo) {
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: positionInfo.latlng,
-                title: positionInfo.title
+<!-- kakao sdk init -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
+<script>
+    Kakao.init('ce6dbfa467c59426f74bb64059c3f05e');
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ce6dbfa467c59426f74bb64059c3f05e"></script>
+<script th:inline="javascript">
+    var cctvs = [[${cctvs}]];
+    var map;
+    var markers = [];
+    // markers
+
+    function initMap() {
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(36.104359, 129.385868),
+            level: 3
+        };
+        map = new kakao.maps.Map(container, options);
+        cctvs.forEach(function(cctv) {
+            addMarker(cctv);
+        });
+    }
+
+    function addMarker(cctv) {
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: new kakao.maps.LatLng(cctv.xcoordinate, cctv.ycoordinate),
+            title: cctv.name
+        });
+        markers.push(marker);
+
+        kakao.maps.event.addListener(marker, 'click', function() {
+            // 마커를 클릭할 때 정보 창을 열도록 합니다.
+            var infowindowContent = document.createElement('div');
+            infowindowContent.className = 'infowindow-container';
+            var titleElement = document.createElement('div');
+            titleElement.className = 'infowindow-title';
+            titleElement.innerText = cctv.name;
+            infowindowContent.appendChild(titleElement);
+            var infowindow = new kakao.maps.InfoWindow({
+                content: infowindowContent,
+                removable: true
             });
-            markers.push(marker);
+            infowindow.open(map, marker);
+        });
+    }
 
-            kakao.maps.event.addListener(marker, 'click', function() {
-                // 마커를 클릭할 때 정보 창을 열도록 합니다.
-                var infowindowContent = document.createElement('div');
-                infowindowContent.className = 'infowindow-container';
-                var titleElement = document.createElement('div');
-                titleElement.className = 'infowindow-title';
-                titleElement.innerText = positionInfo.title;
-                infowindowContent.appendChild(titleElement);
-                var infowindow = new kakao.maps.InfoWindow({
-                    content: infowindowContent,
-                    removable: true
-                });
-                infowindow.open(map, marker);
-            });
+    function updateMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
         }
+        markers = [];
 
-        function updateMarkers() {
-            // 기존 마커 제거
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(null);
+        var blueMarkerIcon = {
+            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        };
+        var grayMarkerIcon = {
+            url: 'http://maps.google.com/mapfiles/ms/icons/grey-dot.png'
+        };
+
+        cctvs.forEach(function(cctv) {
+            if (document.getElementById(cctv.name).checked) {
+                addMarker(cctv);
             }
-            markers = [];
+        });
+    }
 
-            var blueMarkerIcon = {
-                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-            };
-            var grayMarkerIcon = {
-                url: 'http://maps.google.com/mapfiles/ms/icons/grey-dot.png'
-            };
+    document.addEventListener('DOMContentLoaded', function () {
+        initMap();
 
-            var cctv1Checked = document.getElementById('cctv1').checked;
-            var cctv2Checked = document.getElementById('cctv2').checked;
-            var cctv3Checked = document.getElementById('cctv3').checked;
-            var cctv4Checked = document.getElementById('cctv4').checked;
-            if (cctv1Checked) {
-                addMarker({
-                    title: 'cctv1',
-                    latlng: new kakao.maps.LatLng(36.104359, 129.385868),
-                    icon: blueMarkerIcon // 파란색 아이콘
-                });
-            // } else {
-            //     addMarker({
-            //         title: 'cctv1',
-            //         latlng: new kakao.maps.LatLng(36.104359, 129.385868),
-            //         icon: grayMarkerIcon // 회색 아이콘
-            //     });
-            }
-            if (cctv2Checked) {
-                addMarker({
-                    title: 'cctv2',
-                    latlng: new kakao.maps.LatLng(36.104959, 129.385698),
-                    icon: blueMarkerIcon // 파란색 아이콘
-                });
-            // } else {
-            //     addMarker({
-            //         title: 'cctv2',
-            //         latlng: new kakao.maps.LatLng(36.104959, 129.385698),
-            //         icon: grayMarkerIcon // 회색 아이콘
-            //     });
-            }
-            if (cctv3Checked) {
-                addMarker({
-                    title: 'cctv3',
-                    latlng: new kakao.maps.LatLng(36.104459, 129.386868),
-                    icon: blueMarkerIcon // 파란색 아이콘
-                });
-            // } else {
-            //     addMarker({
-            //         title: 'cctv3',
-            //         latlng: new kakao.maps.LatLng(36.104459, 129.386868),
-            //         icon: grayMarkerIcon // 회색 아이콘
-            //     });
-            }
-            if (cctv4Checked) {
-                addMarker({
-                    title: 'cctv4',
-                    latlng: new kakao.maps.LatLng(36.103359, 129.386668),
-                    icon: blueMarkerIcon // 파란색 아이콘
-                });
-            // } else {
-            //     addMarker({
-            //         title: 'cctv4',
-            //         latlng: new kakao.maps.LatLng(36.103359, 129.386668),
-            //         icon: grayMarkerIcon // 회색 아이콘
-            //     });
-            }
-        }
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var videos = document.querySelectorAll(('.video-container video'));
+        var labels = document.querySelectorAll('.cctv-label');
 
+        checkboxes.forEach(function (checkbox, index) {
+            checkbox.addEventListener('change', function () {
+                updateMarkers();
+                if (checkbox.checked) {
+                    videos[index].style.display = 'block';
+                    labels[index].style.display = 'block';
+                } else {
+                    videos[index].style.display = 'none';
+                    labels[index].style.display = 'none';
+                }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            initMap();
-
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            var videos = document.querySelectorAll(('.video-container video'));
-            var labels = document.querySelectorAll('.cctv-label');
-            checkboxes.forEach(function (checkbox, index) {
-                checkbox.addEventListener('change', function () {
-                    updateMarkers();
-                    if (checkbox.checked) {
-                        videos[index].style.display = 'block';
-                        labels[index].style.display = 'block'; // 레이블 표시
-                    } else {
-                        videos[index].style.display = 'none';
-                        labels[index].style.display = 'none'; // 레이블 표시
-                    }
-
-                });
             });
         });
+    });
 
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            // 모든 탭 내용을 숨깁니다.
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            // 탭 버튼의 활성 상태를 제거합니다.
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            // 클릭한 탭의 내용을 보이도록 설정하고 해당 버튼을 활성 상태로 표시합니다.
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
         }
-        // 페이지가 로드될 때 기본 탭을 설정합니다.
-        document.getElementsByClassName("tablinks")[0].click();
-    </script>
+
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    document.getElementsByClassName("tablinks")[0].click();
+</script>
 </body>
 </html>

@@ -9,14 +9,16 @@ import static com.example.demo.Constants.constants.OUTPUT_M3U8;
 @Getter
 @Setter
 public class CCTV {
-    private int id;
-    private String name;
+    private int id;  // 라즈베리파이 id이자 primary key
+    private String name;    // 사용자설정 cctv2, cctv3, ...
     private String videoUrl;
-    @Value("${hls.output.location}")
+
     private String storagePath;
     private double xCoordinate;
     private double yCoordinate;
     private int networkStat;
+    // camera vadlid
+    // 인터넷 세기
 
     public CCTV(int id, String name, double xCoordinate, double yCoordinate, int networkStat) {
         this.id = id;
@@ -25,6 +27,7 @@ public class CCTV {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.networkStat = networkStat;
+        this.storagePath = "/videos/"+name+".mp4";
     }
 
 }
