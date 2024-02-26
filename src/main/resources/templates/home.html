@@ -134,35 +134,6 @@
                 <button class="tablinks" onclick="openTab(event, 'dashboard')">Dashboard</button>
             </div>
             <div id="dashboard" class="tabcontent">
-                <div class="video-container">
-                    <div class="cctv-label">CCTV1</div>
-                    <video controls autoplay>
-                        <source src="/videos/Faker-lol.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="video-container">
-                    <div class="cctv-label">CCTV2</div>
-                    <video controls autoplay>
-                        <source src="/videos/winter-betterthings.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="video-container">
-                    <div class="cctv-label">CCTV3</div>
-                    <video controls autoplay>
-                        <source src="/videos/b2b-garosu.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="video-container">
-                    <div class="cctv-label">CCTV4</div>
-                    <video controls autoplay>
-                        <source src="/videos/park-radio.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-
                 <!--test-->
                 <div th:each="cctv : ${cctvs}" class="video-container">
                     <div class="cctv-label" th:text="${cctv.name}">CCTV</div>
@@ -179,24 +150,7 @@
         </div>
 
         <div id="checkbox-container">
-            <div class="checkbox-item">
-                <input type="checkbox" id="cctv1" name="cctv1" checked>
-                <label for="cctv1">cctv1</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="cctv2" name="cctv2" checked>
-                <label for="cctv2">cctv2</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="cctv3" name="cctv3" checked>
-                <label for="cctv3">cctv3</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="cctv4" name="cctv4" checked>
-                <label for="cctv4">cctv4</label>
-            </div>
-
-            <!--test-->
+             <!--test-->
             <div th:each="cctv : ${cctvs}" class="checkbox-item">
                 <input type="checkbox" th:id="${'cctv' + cctv.id}" th:name="${'cctv' + cctv.name}" checked>
                 <label th:for="${'cctv' + cctv.id}" th:text="${cctv.name}">CCTV</label>
@@ -241,28 +195,27 @@
                 level: 3
             };
             map = new kakao.maps.Map(container, options);
-<!--            positions.forEach(function(position) {-->
-<!--                addMarker(position);-->
-<!--            });-->
-
-            cctvs.forEach(function(cctv) {
-                markCCTV(cctv);
+            positions.forEach(function(position) {
+                addMarker(position);
             });
+
         }
-        function markCCTV(cctv) {
+
+        function addMarker(positionInfo) {
             var marker = new kakao.maps.Marker({
                 map: map,
-                position: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),
-                title: cctv.name
+                position: positionInfo.latlng,
+                title: positionInfo.title
             });
             markers.push(marker);
 
             kakao.maps.event.addListener(marker, 'click', function() {
+                // 마커를 클릭할 때 정보 창을 열도록 합니다.
                 var infowindowContent = document.createElement('div');
                 infowindowContent.className = 'infowindow-container';
                 var titleElement = document.createElement('div');
                 titleElement.className = 'infowindow-title';
-                titleElement.innerText = cctv.name;
+                titleElement.innerText = positionInfo.title;
                 infowindowContent.appendChild(titleElement);
                 var infowindow = new kakao.maps.InfoWindow({
                     content: infowindowContent,
@@ -271,30 +224,6 @@
                 infowindow.open(map, marker);
             });
         }
-
-<!--        function addMarker(positionInfo) {-->
-<!--            var marker = new kakao.maps.Marker({-->
-<!--                map: map,-->
-<!--                position: positionInfo.latlng,-->
-<!--                title: positionInfo.title-->
-<!--            });-->
-<!--            markers.push(marker);-->
-
-<!--            kakao.maps.event.addListener(marker, 'click', function() {-->
-<!--                // 마커를 클릭할 때 정보 창을 열도록 합니다.-->
-<!--                var infowindowContent = document.createElement('div');-->
-<!--                infowindowContent.className = 'infowindow-container';-->
-<!--                var titleElement = document.createElement('div');-->
-<!--                titleElement.className = 'infowindow-title';-->
-<!--                titleElement.innerText = positionInfo.title;-->
-<!--                infowindowContent.appendChild(titleElement);-->
-<!--                var infowindow = new kakao.maps.InfoWindow({-->
-<!--                    content: infowindowContent,-->
-<!--                    removable: true-->
-<!--                });-->
-<!--                infowindow.open(map, marker);-->
-<!--            });-->
-<!--        }-->
 
         function updateMarkers() {
             for (var i = 0; i < markers.length; i++) {
@@ -309,12 +238,12 @@
                 url: 'http://maps.google.com/mapfiles/ms/icons/grey-dot.png'
             };
 
-            cctvs.forEach(function(cctv) {
-                var varChecked = document.getElementById(cctv.name).checked;
+            positions.forEach(function(position) {
+                var varChecked = document.getElementById(position.title).checked;
                 if (varChecked) {
                     addMarker({
-                        title: cctv.name,
-                        latlng: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),
+                        title: position.title,
+                        latlng: position.latlng,
                         icon: blueMarkerIcon
                     });
                 }
