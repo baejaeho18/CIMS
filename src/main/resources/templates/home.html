@@ -1,6 +1,6 @@
 <!--home.html-->
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -105,8 +105,6 @@
         }
         .video-container {
             width: calc(50% - 20px); /* 컨테이너의 너비 설정 */
-            margin-top: 20px;
-            margin-bottom: 20px;
             max-width: 400px; /* 비디오 최대 너비 */
             display: inline-block;
             vertical-align: top;
@@ -166,19 +164,16 @@
                 </div>
 
                 <!--test-->
-                <% for (CCTV cctv : cctvList) { %>
-                    <div class="video-container">
-                        <div class="cctv-label"><%= cctv.getName() %></div>
-                        <video controls autoplay>
-                            <source src="<%= cctv.getStoragePsth() %>" type = "video/mp4">
-                            Your browser does not suppoprt the video tag.
-                        </video>
-                    </div>
-                <% } %>
+                <div th:each="cctv : ${cctvs}" class="video-container">
+                    <div class="cctv-label" th:text="${cctv.name}">CCTV</div>
+                    <video controls autoplay>
+                        <source th:src="@{|${cctv.storagePath}|}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
 
             </div>
             <div id="maplist" class="tabcontent">
-    <!--            <h3>Maplist Content</h3>-->
                 <div id="map" style="width:90%;height:500px;"></div>
             </div>
         </div>
@@ -202,12 +197,10 @@
             </div>
 
             <!--test-->
-            <% for (CCTV cctv : cctvList) { %>
-            <div class="checkbox-item">
-                <input type="checkbox" id="<%= cctv.getId() %>" name="<%= cctv.getId() %>" checked>
-                <label for="<%= cctv.getId() %>"><%= cctv.getName() %></label>
+            <div th:each="cctv : ${cctvs}" class="checkbox-item">
+                <input type="checkbox" th:id="${'cctv' + cctv.id}" th:name="${'cctv' + cctv.name}" checked>
+                <label th:for="${'cctv' + cctv.id}" th:text="${cctv.name}">CCTV</label>
             </div>
-            <% } %>
 
         </div>
     </div>
@@ -248,10 +241,36 @@
                 level: 3
             };
             map = new kakao.maps.Map(container, options);
-            for (var i = 0; i < positions.length; i++) {
-                addMarker(positions[i]);
-            }
+            positions.forEach(function(position) {
+                addMarker(position);
+            });
+
+<!--            cctvs.forEach(function(cctv) {-->
+<!--                markCCTV(cctv);-->
+<!--            });-->
         }
+<!--        function markCCTV(cctv) {-->
+<!--            var marker = new kakao.maps.Marker({-->
+<!--                map: map,-->
+<!--                position: new kakao.maps.LatLng(cctv.xCoordinate, cctv.yCoordinate),-->
+<!--                title: cctv.name-->
+<!--            });-->
+<!--            markers.push(marker);-->
+
+<!--            kakao.maps.event.addListener(marker, 'click', function() {-->
+<!--                var infowindowContent = document.createElement('div');-->
+<!--                infowindowContent.className = 'infowindow-container';-->
+<!--                var titleElement = document.createElement('div');-->
+<!--                titleElement.className = 'infowindow-title';-->
+<!--                titleElement.innerText = cctv.name;-->
+<!--                infowindowContent.appendChild(titleElement);-->
+<!--                var infowindow = new kakao.maps.InfoWindow({-->
+<!--                    content: infowindowContent,-->
+<!--                    removable: true-->
+<!--                });-->
+<!--                infowindow.open(map, marker);-->
+<!--            });-->
+<!--        }-->
 
         function addMarker(positionInfo) {
             var marker = new kakao.maps.Marker({
@@ -278,7 +297,7 @@
         }
 
         function updateMarkers() {
-            // 기존 마커 제거
+            <!--기존 마커 제거-->
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(null);
             }
@@ -299,56 +318,31 @@
                 addMarker({
                     title: 'cctv1',
                     latlng: new kakao.maps.LatLng(36.104359, 129.385868),
-                    icon: blueMarkerIcon // 파란색 아이콘
+                    icon: blueMarkerIcon
                 });
-            // } else {
-            //     addMarker({
-            //         title: 'cctv1',
-            //         latlng: new kakao.maps.LatLng(36.104359, 129.385868),
-            //         icon: grayMarkerIcon // 회색 아이콘
-            //     });
             }
             if (cctv2Checked) {
                 addMarker({
                     title: 'cctv2',
                     latlng: new kakao.maps.LatLng(36.104959, 129.385698),
-                    icon: blueMarkerIcon // 파란색 아이콘
+                    icon: blueMarkerIcon
                 });
-            // } else {
-            //     addMarker({
-            //         title: 'cctv2',
-            //         latlng: new kakao.maps.LatLng(36.104959, 129.385698),
-            //         icon: grayMarkerIcon // 회색 아이콘
-            //     });
             }
             if (cctv3Checked) {
                 addMarker({
                     title: 'cctv3',
                     latlng: new kakao.maps.LatLng(36.104459, 129.386868),
-                    icon: blueMarkerIcon // 파란색 아이콘
+                    icon: blueMarkerIcon
                 });
-            // } else {
-            //     addMarker({
-            //         title: 'cctv3',
-            //         latlng: new kakao.maps.LatLng(36.104459, 129.386868),
-            //         icon: grayMarkerIcon // 회색 아이콘
-            //     });
             }
             if (cctv4Checked) {
                 addMarker({
                     title: 'cctv4',
                     latlng: new kakao.maps.LatLng(36.103359, 129.386668),
-                    icon: blueMarkerIcon // 파란색 아이콘
+                    icon: blueMarkerIcon
                 });
-            // } else {
-            //     addMarker({
-            //         title: 'cctv4',
-            //         latlng: new kakao.maps.LatLng(36.103359, 129.386668),
-            //         icon: grayMarkerIcon // 회색 아이콘
-            //     });
             }
         }
-
 
         document.addEventListener('DOMContentLoaded', function () {
             initMap();
@@ -356,15 +350,16 @@
             var checkboxes = document.querySelectorAll('input[type="checkbox"]');
             var videos = document.querySelectorAll(('.video-container video'));
             var labels = document.querySelectorAll('.cctv-label');
+
             checkboxes.forEach(function (checkbox, index) {
                 checkbox.addEventListener('change', function () {
                     updateMarkers();
                     if (checkbox.checked) {
                         videos[index].style.display = 'block';
-                        labels[index].style.display = 'block'; // 레이블 표시
+                        labels[index].style.display = 'block';
                     } else {
                         videos[index].style.display = 'none';
-                        labels[index].style.display = 'none'; // 레이블 표시
+                        labels[index].style.display = 'none';
                     }
 
                 });
@@ -373,21 +368,21 @@
 
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
-            // 모든 탭 내용을 숨깁니다.
+
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
-            // 탭 버튼의 활성 상태를 제거합니다.
+
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            // 클릭한 탭의 내용을 보이도록 설정하고 해당 버튼을 활성 상태로 표시합니다.
+
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
         }
-        // 페이지가 로드될 때 기본 탭을 설정합니다.
+
         document.getElementsByClassName("tablinks")[0].click();
     </script>
 </body>
