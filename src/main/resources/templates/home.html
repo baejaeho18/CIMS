@@ -297,7 +297,6 @@
         }
 
         function updateMarkers() {
-            <!--기존 마커 제거-->
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(null);
             }
@@ -310,38 +309,16 @@
                 url: 'http://maps.google.com/mapfiles/ms/icons/grey-dot.png'
             };
 
-            var cctv1Checked = document.getElementById('cctv1').checked;
-            var cctv2Checked = document.getElementById('cctv2').checked;
-            var cctv3Checked = document.getElementById('cctv3').checked;
-            var cctv4Checked = document.getElementById('cctv4').checked;
-            if (cctv1Checked) {
-                addMarker({
-                    title: 'cctv1',
-                    latlng: new kakao.maps.LatLng(36.104359, 129.385868),
-                    icon: blueMarkerIcon
-                });
-            }
-            if (cctv2Checked) {
-                addMarker({
-                    title: 'cctv2',
-                    latlng: new kakao.maps.LatLng(36.104959, 129.385698),
-                    icon: blueMarkerIcon
-                });
-            }
-            if (cctv3Checked) {
-                addMarker({
-                    title: 'cctv3',
-                    latlng: new kakao.maps.LatLng(36.104459, 129.386868),
-                    icon: blueMarkerIcon
-                });
-            }
-            if (cctv4Checked) {
-                addMarker({
-                    title: 'cctv4',
-                    latlng: new kakao.maps.LatLng(36.103359, 129.386668),
-                    icon: blueMarkerIcon
-                });
-            }
+            positions.forEach(function(position) {
+                var varChecked = document.getElementById(position.title).checked;
+                if (varChecked) {
+                    addMarker({
+                        title: position.title,
+                        latlng: position.latlng,
+                        icon: blueMarkerIcon
+                    });
+                }
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function () {
