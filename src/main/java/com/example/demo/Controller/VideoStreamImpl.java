@@ -1,18 +1,24 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.ConvertService;
+import com.example.demo.common.FileUtils;
 import io.grpc.stub.StreamObserver;
+import java.io.File;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.cctv.libs.Frame;
 import org.cctv.libs.ServerMessage;
 import org.cctv.libs.StreamingGrpc.StreamingImplBase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 
 @GrpcService
 public class VideoStreamImpl extends StreamingImplBase {
 
     private final ConvertService convertService;
+
+    @Value("${hls.output.location}")
+    private String HLS_OUTPUT_PATH;
 
     @Autowired
     public VideoStreamImpl(ConvertService convertService) {
@@ -24,12 +30,13 @@ public class VideoStreamImpl extends StreamingImplBase {
 
         return new StreamObserver<Frame>() {
             int index = 0;
+            String piName;
 
             //변수 처리
             @Override
             public void onNext(Frame frame) {
                 // 클라이언트로부터 받은 각각의 프레임 처리
-                String piName = frame.getName();
+                piName = frame.getName();
                 String status = frame.getStatus();
 
                 System.out.println("piName =" + piName);
@@ -43,6 +50,7 @@ public class VideoStreamImpl extends StreamingImplBase {
             @Override
             public void onError(Throwable t) {
                 // 에러 발생 시 처리
+                FileUtils.deleteDirectory(new File(HLS_OUTPUT_PATH + piName));
                 System.out.println(t.getMessage());
             }
 

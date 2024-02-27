@@ -39,6 +39,7 @@ public class ConvertService {
 
     public void convertToHls(int index, String piName, byte[] buffer) {
         File output = FileUtils.createDirectoryIfNotExists(piName, HLS_OUTPUT_PATH);
+        FileUtils.cleanupFiles(output);
         File tempMp4 = FileUtils.writeBufferToTempFile(buffer);
 
         if (output != null) {
