@@ -1,13 +1,18 @@
 package com.example.demo.Service;
 
 import com.example.demo.domain.CCTV;
+import com.example.demo.repository.CCTVMapper;
 import jakarta.annotation.PostConstruct;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 @Service
 public class CCTVService {
+
+    @Autowired
+    CCTVMapper cctvMapper;
     private List<CCTV> cctvList = new ArrayList<>();
 
     @PostConstruct
@@ -19,6 +24,9 @@ public class CCTVService {
     }
 
     public List<CCTV> getAllCCTV() {
+        System.out.println(cctvMapper.getCCTV().get(0).getxCoordinate()); // 여기 잘확인할것!!
+        cctvMapper.insertCCTV(new CCTV(3, "pi6", 2523.3, 234.4, 230));
         return cctvList;
     }
+
 }

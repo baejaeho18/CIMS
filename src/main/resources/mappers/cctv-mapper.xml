@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.CCTVMapper">
+    <insert id="insertCCTV">
+        insert into cctv (id, name, videoUrl, storagePath, xCoordinate, yCoordinate, networkStat, cameraValid,
+                          emergency)
+        values (#{id}, #{name}, #{videoUrl}, #{storagePath}, #{xCoordinate}, #{yCoordinate}, #{networkStat},
+                #{cameraValid}, #{emergency})
+    </insert>
+    <update id="updateCoordinate">
+        update cctv
+        set xCoordinate = #{xCoordinate},
+            yCoordinate = #{yCoordinate}
+        where id = #{id};
+    </update>
+    <update id="updateCCTVName">
+        update cctv
+            name = #{name}
+        where id = #{id};;
+    </update>
+    <update id="updateCCTVStatus">
+        update cctv
+        set networkStat = #{networkStat},
+            cameraValid = #{cameraValid},
+            emergency   = #{emergency}
+        where id = #{id};
+    </update>
+    <select id="getCCTV" resultType="CCTVDTO">
+        select *
+        from cctv
+    </select>
+    <delete id="deleteCCTV">
+        delete
+        from cctv
+        where id = #{id}
+    </delete>
+</mapper>
+

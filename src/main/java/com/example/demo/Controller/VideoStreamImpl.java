@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Service.ConvertService;
 import com.example.demo.common.FileUtils;
+import com.example.demo.repository.CCTVMapper;
 import io.grpc.stub.StreamObserver;
 import java.io.File;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -15,6 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 @GrpcService
 public class VideoStreamImpl extends StreamingImplBase {
 
+    @Autowired
+    CCTVMapper cctvMapper;
+    
     private final ConvertService convertService;
 
     @Value("${hls.output.location}")

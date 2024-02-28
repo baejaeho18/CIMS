@@ -27,6 +27,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.projectlombok:lombok:1.18.22'
 
+    //DB
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
     //grpc interface 추가
     implementation 'net.devh:grpc-server-spring-boot-starter:2.15.0.RELEASE'
     implementation files('libs/grpc_interface-1.0-SNAPSHOT.jar')
