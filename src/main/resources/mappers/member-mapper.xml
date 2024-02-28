@@ -7,7 +7,7 @@
         insert into member (hashcode, name, id, pwd, valid, userRole)
         values (#{hashcode}, #{name}, #{id}, #{pwd}, #{valid}, #{userRole})
     </insert>
-    <select id="getMember" resultType="MemberDTO">
+    <select id="getMember" resultType="MemberDTO1">
         select *
         from member
     </select>

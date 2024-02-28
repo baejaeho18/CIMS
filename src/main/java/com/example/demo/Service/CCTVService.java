@@ -25,7 +25,7 @@ public class CCTVService {
 
     public List<CCTV> getAllCCTV() {
         System.out.println(cctvMapper.getCCTV().get(0).getxCoordinate()); // 여기 잘확인할것!!
-        cctvMapper.insertCCTV(new CCTV(3, "pi6", 2523.3, 234.4, 230));
+//        cctvMapper.insertCCTV(new CCTV(3, "pi6", 2523.3, 234.4, 230));
         return cctvList;
     }
 

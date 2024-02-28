@@ -13,19 +13,19 @@
         update cctv
         set xCoordinate = #{xCoordinate},
             yCoordinate = #{yCoordinate}
-        where id = #{id};
+        where id = #{id}
     </update>
     <update id="updateCCTVName">
         update cctv
             name = #{name}
-        where id = #{id};;
+        where id = #{id}
     </update>
     <update id="updateCCTVStatus">
         update cctv
         set networkStat = #{networkStat},
             cameraValid = #{cameraValid},
             emergency   = #{emergency}
-        where id = #{id};
+        where id = #{id}
     </update>
     <select id="getCCTV" resultType="CCTVDTO">
         select *

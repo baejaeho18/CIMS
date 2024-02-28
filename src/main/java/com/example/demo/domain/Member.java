@@ -8,7 +8,7 @@ import org.apache.ibatis.type.Alias;
 
 @Getter
 @Setter
-@Alias("MemberDTO")
+@Alias("MemberDTO1")
 public class Member {
     private Long hashcode;
     private String name;
