@@ -8,10 +8,6 @@ public interface MemberRepository {
 
     Member save(Member member);
 
-    Optional<Member> findByHash(Long hash);
-
-    Optional<Member> findByName(String name);
-
     Optional<Member> findById(String id);
 
     List<Member> findAll();

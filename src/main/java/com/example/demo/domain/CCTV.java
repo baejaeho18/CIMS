@@ -14,7 +14,6 @@ public class CCTV {
     private int id;  // 라즈베리파이 id이자 primary key
     private String name;    // 사용자설정 cctv2, cctv3, ...
     private String videoUrl;
-
     private String storagePath;
     private double xCoordinate;
     private double yCoordinate;
@@ -30,7 +29,7 @@ public class CCTV {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.networkStat = networkStat;
-        this.storagePath = "/videos/" + name + ".mp4";
+        this.storagePath = "/video/" + name + ".mp4";
     }
 
     public CCTV() {

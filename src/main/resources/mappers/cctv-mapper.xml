@@ -9,7 +9,7 @@
         values (#{id}, #{name}, #{videoUrl}, #{storagePath}, #{xCoordinate}, #{yCoordinate}, #{networkStat},
                 #{cameraValid}, #{emergency})
     </insert>
-    <update id="updateCoordinate">
+    <update id="updateCoordinates">
         update cctv
         set xCoordinate = #{xCoordinate},
             yCoordinate = #{yCoordinate}
@@ -20,7 +20,7 @@
             name = #{name}
         where id = #{id}
     </update>
-    <update id="updateCCTVStatus">
+    <update id="updateCCTVStatusFromNode">
         update cctv
         set networkStat = #{networkStat},
             cameraValid = #{cameraValid},
@@ -30,6 +30,11 @@
     <select id="getCCTV" resultType="CCTVDTO">
         select *
         from cctv
+    </select>
+    <select id="selectCCTVStatusByName" parameterType="String" resultType="CCTVDTO">
+        select *
+        from cctv
+        where name = #{name}
     </select>
     <delete id="deleteCCTV">
         delete

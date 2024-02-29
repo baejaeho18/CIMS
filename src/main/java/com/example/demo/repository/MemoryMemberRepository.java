@@ -18,18 +18,20 @@ public class MemoryMemberRepository implements MemberRepository {
         member.setHashcode(++sequence);
         member.setValid(Boolean.TRUE);
         store.put(member.getHashcode(), member);
+
+//        insertMember(member);
         return member;
     }
-    @Override
-    public Optional<Member> findByHash(Long hash) {
-        return Optional.ofNullable(store.get(hash));
-    }
-    @Override
-    public Optional<Member> findByName(String name) {
-        return store.values().stream()
-                .filter(member -> member.getName().equals(name))
-                .findAny();
-    }
+//    @Override
+//    public Optional<Member> findByHash(Long hash) {
+//        return Optional.ofNullable(store.get(hash));
+//    }
+//    @Override
+//    public Optional<Member> findByName(String name) {
+//        return store.values().stream()
+//                .filter(member -> member.getName().equals(name))
+//                .findAny();
+//    }
     @Override
     public Optional<Member> findById(String id) {
         return store.values().stream()
