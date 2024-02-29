@@ -2,14 +2,9 @@ package com.example.demo.Controller;
 
 import com.example.demo.Service.MemberService;
 import com.example.demo.domain.Member;
-import com.example.demo.domain.MemberDto;
+import com.example.demo.domain.MemberForm;
 import com.example.demo.domain.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,15 +23,15 @@ public class MemberController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
-    public String signup(MemberDto memberDto) {
+    public String signup(MemberForm memberForm) {
 //        memberService.join(new Member("user", "user", "password"));
 //        memberService.join(new Member("admin", "admin", "password", UserRole.ADMIN));
 
         // 회원가입
         Member member = new Member();
-        member.setId(memberDto.getId());
-        member.setPwd(passwordEncoder.encode(memberDto.getPwd()));
-        member.setName(memberDto.getName());
+        member.setId(memberForm.getId());
+        member.setPwd(passwordEncoder.encode(memberForm.getPwd()));
+        member.setName(memberForm.getName());
         member.setUserRole(UserRole.ROLE_USER);      // 차후 admin 계정에서만 admin 권한 줄 수 있고 default로 user 권한
         memberService.join(member); // service 에서 duplicate 검사 후 실제로 repository에 저장
 

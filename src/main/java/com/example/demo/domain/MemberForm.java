@@ -1,6 +1,6 @@
 package com.example.demo.domain;
 
-public class MemberDto {
+public class MemberForm {
     private String name;
     private String id;
     private String pwd;
